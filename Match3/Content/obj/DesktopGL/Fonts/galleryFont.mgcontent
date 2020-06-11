@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Fonts/galleryFont.spritefont</SourceFile>
+  <SourceTime>2017-11-18T14:07:30+10:00</SourceTime>
+  <DestFile>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/bin/DesktopGL/Fonts/galleryFont.xnb</DestFile>
+  <DestTime>2020-06-11T19:16:35.5585559+10:00</DestTime>
+  <Importer>FontDescriptionImporter</Importer>
+  <ImporterTime>2018-12-09T02:35:54+10:00</ImporterTime>
+  <Processor>FontDescriptionProcessor</Processor>
+  <ProcessorTime>2018-12-09T02:35:54+10:00</ProcessorTime>
+  <Parameters>
+    <Key>PremultiplyAlpha</Key>
+    <Value>True</Value>
+  </Parameters>
+  <Parameters>
+    <Key>TextureFormat</Key>
+    <Value>Compressed</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

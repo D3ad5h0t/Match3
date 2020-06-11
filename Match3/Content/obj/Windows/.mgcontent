@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Profile>Reach</Profile>
+  <Platform>Windows</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Backgrounds/Blue.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Backgrounds/Green.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Backgrounds/Red.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Buttons/Button.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/1.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/10.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/11.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/12.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/13.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/14.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/15.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/16.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/17.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/18.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/19.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/2.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/20.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/21.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/3.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/4.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/5.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/6.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/7.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/8.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Candies/9.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Cells/1.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Cells/2.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Cells/3.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Cells/4.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Cells/5.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Cells/6.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Controls/Cells/7.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Fonts/Font.spritefont</File>
+  </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>
