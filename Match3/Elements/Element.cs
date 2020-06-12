@@ -14,7 +14,6 @@ namespace Match3.Elements
 
         public Vector2 Position { get; set; }
 
-        //public Rectangle Rectangle => new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
         public virtual Rectangle Rectangle => new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
 
 

@@ -95,6 +95,18 @@ namespace Match3.States
         private void Gem_Click(object sender, EventArgs e)
         {
             var gem = (Gem) sender;
+            var fields = _elements.Where(x => x is FieldCell).ToList();
+
+            foreach (var element in fields)
+            {
+                var currentGem = ((FieldCell)element).Gem;
+                if (currentGem != gem)
+                {
+                    currentGem.IsClicked = false;
+                    currentGem.Texture = _content.Load<Texture2D>(currentGem.Type.SpritePath());
+                }
+            }
+
             gem.IsClicked = !gem.IsClicked;
             gem.Texture = gem.IsClicked
                 ? _content.Load<Texture2D>(gem.Type.SelectedSpritePath())
