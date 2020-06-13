@@ -42,12 +42,6 @@ namespace Match3.Elements.Gem
             return this;
         }
 
-        public GemBuilder Click(EventHandler handler)
-        {
-            _gem.Click += handler;
-            return this;
-        }
-
         public Gem Build()
         {
             return _gem;

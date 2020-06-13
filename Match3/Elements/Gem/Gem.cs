@@ -9,12 +9,7 @@ namespace Match3.Elements.Gem
 {
     public class Gem : Element
     {
-        private MouseState _currentMouse;
-        private MouseState _previousMouse;
-
         public GemType Type;
-
-        public event EventHandler Click;
 
         public bool IsClicked { get; set; }
 
@@ -23,33 +18,17 @@ namespace Match3.Elements.Gem
         public override Rectangle Rectangle => new Rectangle(
             (int) Position.X + DefaultGem.DeltaWidth, 
             (int) Position.Y + DefaultGem.DeltaHeight, 
-            DefaultGem.GameWidth, 
-            DefaultGem.GameHeight);
+            DefaultGem.Width, 
+            DefaultGem.Height);
 
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
                 Texture,
-                new Rectangle((int)Position.X, (int)Position.Y, DefaultGem.GameWidth, DefaultGem.GameHeight),
+                new Rectangle((int)Position.X, (int)Position.Y, DefaultGem.Width, DefaultGem.Height),
                 new Rectangle(-DefaultGem.DeltaWidth, -DefaultGem.DeltaHeight, Texture.Width, Texture.Height),
                 Color.White);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            _previousMouse = _currentMouse;
-            _currentMouse = Mouse.GetState();
-
-            var mousePosition = new Point(_currentMouse.X, _currentMouse.Y);
-
-            if (Rectangle.Contains(mousePosition))
-            {
-                if (_previousMouse.LeftButton == ButtonState.Released && _currentMouse.LeftButton == ButtonState.Pressed)
-                {
-                    Click?.Invoke(this, new EventArgs());
-                }
-            }
         }
     }
 }
