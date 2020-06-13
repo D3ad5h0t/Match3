@@ -46,8 +46,14 @@ namespace Match3.States
             {
                 for (int j = 0; j < DefaultField.BoardSize; j++)
                 {
-                    _gameField[i, j].Draw(gameTime, spriteBatch);
-                    _gameField[i, j].Gem.Draw(gameTime, spriteBatch);
+                    if (_gameField[i, j] != null)
+                    {
+                        _gameField[i, j].Draw(gameTime, spriteBatch);
+                        if (_gameField[i, j].Gem != null)
+                        {
+                            _gameField[i, j].Gem.Draw(gameTime, spriteBatch);
+                        }
+                    }
                 }
             }
 
@@ -56,12 +62,17 @@ namespace Match3.States
 
         public override void Update(GameTime gameTime)
         {
+            GemConroller.MatchAndClear(_gameField);
             for (int i = 0; i < DefaultField.BoardSize; i++)
             {
                 for (int j = 0; j < DefaultField.BoardSize; j++)
                 {
-                    _gameField[i, j].Update(gameTime);
-                    _gameField[i, j].Gem.Update(gameTime);
+                    if (_gameField[i, j] != null)
+                    {
+                        _gameField[i, j].Update(gameTime);
+                        if (_gameField[i, j].Gem != null)
+                            _gameField[i, j].Gem.Update(gameTime);
+                    }
                 }
             }
         }
@@ -88,9 +99,10 @@ namespace Match3.States
             var cell = new FieldCell
             {
                 Id = (j + 1) + 8 * i,
+                Column = j,
+                Row = i,
                 Position = new Vector2(DefaultCell.Width * j, DefaultCell.Height * 2 + DefaultCell.Height * i),
-                Texture = _content.Load<Texture2D>(BackgroundType.Ground.SpritePath()),
-                IsEmpty = false,
+                Texture = _content.Load<Texture2D>(BackgroundType.Ground.SpritePath())
             };
 
             cell.Click += Cell_Click;
@@ -110,14 +122,19 @@ namespace Match3.States
         {
             FieldCell clickedCell = (FieldCell) sender;
 
+            if (clickedCell.Gem == null) return;
+
             if (_prevCell != null)
             {
-                GemConroller.Swap(clickedCell, _prevCell);
+                GemConroller.SwapGems(clickedCell, _prevCell);
 
                 foreach (var cell in _gameField)
                 {
-                    cell.Gem.IsClicked = false;
-                    GemConroller.UpdateTexture(cell.Gem, _content);
+                    if (cell.Gem != null)
+                    {
+                        cell.Gem.IsClicked = false;
+                        GemConroller.UpdateTexture(cell.Gem, _content);
+                    }
                 }
 
                 _prevCell = null;
