@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Match3
+﻿namespace Match3.Core
 {
     public static class DefaultWindow
     {
@@ -19,5 +13,11 @@ namespace Match3
 
         public const int DeltaWidth = 10;
         public const int DeltaHeight = 10;
+    }
+
+    public static class DefaultCell
+    {
+        public const int Width = 72;
+        public const int Height = 72;
     }
 }

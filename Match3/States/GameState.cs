@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Match3.Core;
+using Match3.Core.Controllers;
 using Match3.Elements;
+using Match3.Elements.Gem;
 using Match3.Enumerations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -13,6 +16,8 @@ namespace Match3.States
 {
     public class GameState : State
     {
+        private static FieldCell _prevField = null;
+
         public GameState(Match3Game game, GraphicsDevice graphicsDevice, ContentManager content)
             : base(game, graphicsDevice, content)
         {
@@ -65,26 +70,7 @@ namespace Match3.States
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    var position = new Vector2(72 * j, 144 + 72 * i);
-                    var type = (GemType)random.Next(1, 6);
-                    var cell = new FieldCell
-                    {
-                        Position = position,
-                        Texture = _content.Load<Texture2D>(BackgroundType.Ground.SpritePath()),
-                        IsEmpty = false
-                    };
-
-                    var gem = new Gem
-                    {
-                        Texture = _content.Load<Texture2D>(type.SpritePath()),
-                        Type = type,
-                        Position = position,
-                        IsClicked = false,
-                        IsLine = false
-                    };
-                    gem.Click += Gem_Click;
-                    cell.Gem = gem;
-
+                    var cell = GetNewFieldCell(j, i, random);
                     result.Add(cell);
                 }
             }
@@ -92,25 +78,60 @@ namespace Match3.States
             return result;
         }
 
+        private FieldCell GetNewFieldCell(int j, int i, Random random)
+        {
+            var cell = new FieldCell
+            {
+                Id = (j + 1) + 8 * i,
+                Position = new Vector2(DefaultCell.Width * j, DefaultCell.Height * 2 + DefaultCell.Height * i),
+                Texture = _content.Load<Texture2D>(BackgroundType.Ground.SpritePath()),
+                IsEmpty = false
+            };
+
+            var type = (GemType)random.Next(1, 6);
+            cell.Gem = new GemBuilder(type)
+                .Position(cell.Position)
+                .Texture(_content.Load<Texture2D>(type.SpritePath()))
+                .Click(Gem_Click)
+                .Clicked(false)
+                .Line(false)
+                .Build();
+
+            return cell;
+        }
+
         private void Gem_Click(object sender, EventArgs e)
         {
-            var gem = (Gem) sender;
-            var fields = _elements.Where(x => x is FieldCell).ToList();
-
-            foreach (var element in fields)
+            var field = (FieldCell)_elements.Where(x => x is FieldCell)
+                                            .FirstOrDefault(x => ((FieldCell)x).Gem == (Gem)sender);
+            
+            field.Gem.IsClicked = !field.Gem.IsClicked;
+            
+            if (_prevField != null)
             {
-                var currentGem = ((FieldCell)element).Gem;
-                if (currentGem != gem)
+                if (_prevField == field)
                 {
-                    currentGem.IsClicked = false;
-                    currentGem.Texture = _content.Load<Texture2D>(currentGem.Type.SpritePath());
+                    _prevField = null;
+                }
+                else
+                {
+                    GemConroller.Swap(field, _prevField);
+                    _prevField = null;
+
+                    foreach (var element in _elements.Where(x => x is FieldCell))
+                    {
+                        var gem = ((FieldCell)element).Gem;
+                        gem.IsClicked = false;
+                        GemConroller.UpdateTexture(gem, _content);
+                    }
                 }
             }
+            else
+            {
+                _prevField = field;
+            }
 
-            gem.IsClicked = !gem.IsClicked;
-            gem.Texture = gem.IsClicked
-                ? _content.Load<Texture2D>(gem.Type.SelectedSpritePath())
-                : _content.Load<Texture2D>(gem.Type.SpritePath());
+            GemConroller.UpdateTexture(field.Gem, _content);
         }
     }
 }

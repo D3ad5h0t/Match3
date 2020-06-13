@@ -1,4 +1,5 @@
-﻿using Match3.States;
+﻿using Match3.Core;
+using Match3.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

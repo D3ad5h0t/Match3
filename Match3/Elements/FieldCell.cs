@@ -11,8 +11,10 @@ namespace Match3.Elements
 {
     public class FieldCell : Element
     {
+        public int Id { get; set; }
+
         public bool IsEmpty { get; set; }
 
-        public Gem Gem { get; set; }
+        public Gem.Gem Gem { get; set; }
     }
 }

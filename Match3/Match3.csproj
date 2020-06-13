@@ -42,12 +42,14 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Core\Controllers\GemConroller.cs" />
     <Compile Include="Controls\Button.cs" />
-    <Compile Include="DefaultValues.cs" />
+    <Compile Include="Core\DefaultValues.cs" />
     <Compile Include="Elements\Background.cs" />
     <Compile Include="Elements\Element.cs" />
     <Compile Include="Elements\FieldCell.cs" />
-    <Compile Include="Elements\Gem.cs" />
+    <Compile Include="Elements\Gem\Gem.cs" />
+    <Compile Include="Elements\Gem\GemBuilder.cs" />
     <Compile Include="Enumerations\BackgroundType.cs" />
     <Compile Include="Enumerations\ButtonType.cs" />
     <Compile Include="Enumerations\GemType.cs" />
