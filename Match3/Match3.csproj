@@ -45,6 +45,7 @@
     <Compile Include="Core\Controllers\GemConroller.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Core\DefaultValues.cs" />
+    <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Elements\Background.cs" />
     <Compile Include="Elements\Element.cs" />
     <Compile Include="Elements\FieldCell.cs" />

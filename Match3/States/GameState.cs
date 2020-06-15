@@ -42,19 +42,14 @@ namespace Match3.States
                 element.Draw(gameTime, spriteBatch);
             }
 
-            for (int i = 0; i < DefaultField.BoardSize; i++)
+            foreach (var cell in _gameField)
             {
-                for (int j = 0; j < DefaultField.BoardSize; j++)
-                {
-                    if (_gameField[i, j] != null)
-                    {
-                        _gameField[i, j].Draw(gameTime, spriteBatch);
-                        if (_gameField[i, j].Gem != null)
-                        {
-                            _gameField[i, j].Gem.Draw(gameTime, spriteBatch);
-                        }
-                    }
-                }
+                cell.Draw(gameTime, spriteBatch);
+            }
+
+            foreach (var cell in _gameField)
+            {
+                cell.Gem?.Draw(gameTime, spriteBatch);
             }
 
             spriteBatch.End();
@@ -63,6 +58,8 @@ namespace Match3.States
         public override void Update(GameTime gameTime)
         {
             GemConroller.MatchAndClear(_gameField);
+            GemConroller.MoveGems(_gameField);
+
             for (int i = 0; i < DefaultField.BoardSize; i++)
             {
                 for (int j = 0; j < DefaultField.BoardSize; j++)

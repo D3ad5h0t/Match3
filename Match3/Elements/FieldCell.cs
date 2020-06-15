@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Match3.Elements
 {
+    [Serializable]
     public class FieldCell : Element
     {
         private MouseState _currentMouse;
@@ -25,6 +26,11 @@ namespace Match3.Elements
 
         public Gem.Gem Gem { get; set; }
 
+
+        public void SetGemPosition()
+        {
+            Gem.Position = this.Position;
+        }
 
         public override void Update(GameTime gameTime)
         {

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Match3.Elements
 {
+    [Serializable]
     public abstract class Element
     {
         public Texture2D Texture;

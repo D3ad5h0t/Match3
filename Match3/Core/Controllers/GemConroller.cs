@@ -5,6 +5,7 @@ using System.Runtime.Remoting.Messaging;
 using Match3.Elements;
 using Match3.Elements.Gem;
 using Match3.Enumerations;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -23,12 +24,12 @@ namespace Match3.Core.Controllers
             bool areNerby = AreCellsNerby(firstCell, secondCell);
             if (areNerby)
             {
-                var middleField = (FieldCell) firstCell.Clone();
+                var gem = (Gem)firstCell.Gem.Clone();
 
-                firstCell.Gem = (Gem) secondCell.Gem.Clone();
+                firstCell.Gem = (Gem)secondCell.Gem.Clone();
                 firstCell.Gem.Position = firstCell.Position;
 
-                secondCell.Gem = (Gem) middleField.Gem;
+                secondCell.Gem = gem;
                 secondCell.Gem.Position = secondCell.Position;
             }
         }
@@ -67,9 +68,6 @@ namespace Match3.Core.Controllers
                             gameField[cell.Row, cell.Column].Gem = null;
                             _clearedCells = true;
                         }
-
-
-
                     }
 
                     _currentCell = null;
@@ -82,7 +80,7 @@ namespace Match3.Core.Controllers
         {
             if (_gameField[x, y] == null || _gameField[x, y].Gem == null) return;
 
-        if (_currentCell == null)
+            if (_currentCell == null)
             {
                 _currentCell = _gameField[x, y];
                 _gameField[x, y] = null;
@@ -111,6 +109,29 @@ namespace Match3.Core.Controllers
                 for (int x = 0; x < DefaultField.BoardSize; x++)
                 {
                     destination[x, y] = source[x, y];
+                }
+            }
+        }
+
+        public static void MoveGems(FieldCell[,] gameField)
+        {
+            for (int y = DefaultField.BoardSize - 1; y > 0; y--)
+            {
+                for (int x = 0; x < DefaultField.BoardSize; x++)
+                {
+                    if (gameField[y, x].Gem != null) continue;
+                    if (gameField[y - 1, x].Gem == null) continue;
+
+                    if (gameField[y - 1, x].Gem.Position != gameField[y, x].Position)
+                    {
+                        gameField[y - 1, x].Gem.Position = new Vector2(gameField[y - 1, x].Gem.Position.X, gameField[y - 1, x].Gem.Position.Y + 3);
+                    }
+                    else
+                    {
+                        gameField[y, x].Gem = (Gem)gameField[y - 1, x].Gem.Clone();
+                        gameField[y, x].SetGemPosition();
+                        gameField[y - 1, x].Gem = null;
+                    }
                 }
             }
         }

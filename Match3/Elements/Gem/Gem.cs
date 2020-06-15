@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Match3.Elements.Gem
 {
+    [Serializable]
     public class Gem : Element
     {
         public GemType Type;
