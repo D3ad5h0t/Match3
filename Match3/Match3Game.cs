@@ -1,4 +1,5 @@
 ﻿using Match3.Core;
+using Match3.Core.Controllers;
 using Match3.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,7 +14,8 @@ namespace Match3
 
         private State _currentState;
         private State _nextState;
-        
+
+
         public Match3Game(int width = DefaultWindow.Width, int height = DefaultWindow.Height)
         {
             graphics = new GraphicsDeviceManager(this);
@@ -33,6 +35,7 @@ namespace Match3
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             _currentState = new MenuState(this, graphics.GraphicsDevice, Content);
+            ContentController.SetContent(Content);
         }
 
         protected override void UnloadContent()

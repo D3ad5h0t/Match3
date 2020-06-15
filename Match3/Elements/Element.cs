@@ -28,7 +28,6 @@ namespace Match3.Elements
             
         }
 
-
         public Element Clone() => (Element)this.MemberwiseClone();
     }
 }

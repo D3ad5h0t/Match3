@@ -25,4 +25,9 @@
     {
         public const int BoardSize = 8;
     }
+
+    public static class DefaultSettings
+    {
+        public const int Speed = 4;
+    }
 }

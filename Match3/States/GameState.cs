@@ -19,15 +19,19 @@ namespace Match3.States
         private static FieldCell _prevCell = null;
         private static FieldCell[,] _gameField = new FieldCell[DefaultField.BoardSize, DefaultField.BoardSize];
 
+        private CurrentMove _move = null;
+
+
         public GameState(Match3Game game, GraphicsDevice graphicsDevice, ContentManager content)
             : base(game, graphicsDevice, content)
         {
             _gameField = GetPlayingField();
-            _elements = new List<Element>
+
+            _elements = new List<Element>()
             {
                 new Background
                 {
-                    Texture = _content.Load<Texture2D>(BackgroundType.Grass.SpritePath()),
+                    Texture = ContentController.GetTexture(BackgroundType.Full.SpritePath()),
                     Position = Vector2.Zero
                 }
             };
@@ -57,20 +61,29 @@ namespace Match3.States
 
         public override void Update(GameTime gameTime)
         {
-            GemConroller.MatchAndClear(_gameField);
-            GemConroller.MoveGems(_gameField);
+            FieldCellsConroller.MatchAndClear(_gameField);
+            GemsController.MoveGems(_gameField);
 
-            for (int i = 0; i < DefaultField.BoardSize; i++)
+
+            if (_move != null)
             {
-                for (int j = 0; j < DefaultField.BoardSize; j++)
+                if (_move.FirstCell?.Gem == null || _move.SecondCell?.Gem == null)
                 {
-                    if (_gameField[i, j] != null)
-                    {
-                        _gameField[i, j].Update(gameTime);
-                        if (_gameField[i, j].Gem != null)
-                            _gameField[i, j].Gem.Update(gameTime);
-                    }
+                    ;
                 }
+                else
+                {
+                    GemsController.SwapGems(_move.FirstCell, _move.SecondCell);
+                    _move = null;
+                }
+            }
+
+            GemsController.GenerateNewGems(_gameField);
+
+            foreach (var cell in _gameField)
+            {
+                cell.Update(gameTime);
+                cell.Gem?.Update(gameTime);
             }
         }
 
@@ -83,36 +96,12 @@ namespace Match3.States
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    var cell = GetNewFieldCell(j, i, random);
+                    var cell = FieldCellsConroller.GenerateNewFieldCell(j, i, random, Cell_Click);
                     result[i,j] = cell;
                 }
             }
 
             return result;
-        }
-
-        private FieldCell GetNewFieldCell(int j, int i, Random random)
-        {
-            var cell = new FieldCell
-            {
-                Id = (j + 1) + 8 * i,
-                Column = j,
-                Row = i,
-                Position = new Vector2(DefaultCell.Width * j, DefaultCell.Height * 2 + DefaultCell.Height * i),
-                Texture = _content.Load<Texture2D>(BackgroundType.Ground.SpritePath())
-            };
-
-            cell.Click += Cell_Click;
-
-            var type = (GemType)random.Next(1, 6);
-            cell.Gem = new GemBuilder(type)
-                .Position(cell.Position)
-                .Texture(_content.Load<Texture2D>(type.SpritePath()))
-                .Clicked(false)
-                .Line(false)
-                .Build();
-
-            return cell;
         }
 
         private void Cell_Click(object sender, EventArgs e)
@@ -123,14 +112,15 @@ namespace Match3.States
 
             if (_prevCell != null)
             {
-                GemConroller.SwapGems(clickedCell, _prevCell);
+                GemsController.SwapGems(clickedCell, _prevCell);
+                _move = new CurrentMove(clickedCell, _prevCell);
 
                 foreach (var cell in _gameField)
                 {
                     if (cell.Gem != null)
                     {
                         cell.Gem.IsClicked = false;
-                        GemConroller.UpdateTexture(cell.Gem, _content);
+                        FieldCellsConroller.UpdateTexture(cell.Gem);
                     }
                 }
 
@@ -139,9 +129,24 @@ namespace Match3.States
             else
             {
                 clickedCell.Gem.IsClicked = true;
-                GemConroller.UpdateTexture(clickedCell.Gem, _content);
+                FieldCellsConroller.UpdateTexture(clickedCell.Gem);
                 _prevCell = clickedCell;
             }
+        }
+    }
+
+
+    public class CurrentMove
+    {
+        public FieldCell FirstCell { get; set; }
+
+        public FieldCell SecondCell { get; set; }
+
+
+        public CurrentMove(FieldCell first, FieldCell second)
+        {
+            FirstCell = first;
+            SecondCell = second;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
+using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using Match3.Elements;
 using Match3.Elements.Gem;
@@ -11,46 +12,28 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Match3.Core.Controllers
 {
-    public static class GemConroller
+    public static class FieldCellsConroller
     {
         private static FieldCell[,] _gameField = new FieldCell[DefaultField.BoardSize, DefaultField.BoardSize];
-        private static bool _clearedCells = false;
         private static FieldCell _currentCell;
         private static List<FieldCell> _collector = new List<FieldCell>();
 
 
-        public static void SwapGems(FieldCell firstCell, FieldCell secondCell)
-        {
-            bool areNerby = AreCellsNerby(firstCell, secondCell);
-            if (areNerby)
-            {
-                var gem = (Gem)firstCell.Gem.Clone();
-
-                firstCell.Gem = (Gem)secondCell.Gem.Clone();
-                firstCell.Gem.Position = firstCell.Position;
-
-                secondCell.Gem = gem;
-                secondCell.Gem.Position = secondCell.Position;
-            }
-        }
-
-        public static void UpdateTexture(Gem gem, ContentManager content)
+        public static void UpdateTexture(Gem gem)
         {
             gem.Texture = gem.IsClicked
-                ? content.Load<Texture2D>(gem.Type.SelectedSpritePath())
-                : content.Load<Texture2D>(gem.Type.SpritePath());
+                ? ContentController.GetTexture(gem.Type.SelectedSpritePath())
+                : ContentController.GetTexture(gem.Type.SpritePath());
         }
 
-        private static bool AreCellsNerby(FieldCell firstCell, FieldCell secondCell) =>
+        public static bool AreCellsNerby(FieldCell firstCell, FieldCell secondCell) =>
             firstCell.Id + 1 == secondCell.Id ||
             firstCell.Id - 1 == secondCell.Id ||
             firstCell.Id + 8 == secondCell.Id ||
             firstCell.Id - 8 == secondCell.Id;
 
-
         public static void MatchAndClear(FieldCell[,] gameField)
         {
-            _clearedCells = false;
             CopyField(gameField, _gameField);
             _currentCell = null;
             _collector.Clear();
@@ -59,19 +42,37 @@ namespace Match3.Core.Controllers
             {
                 for (int j = 0; j < DefaultField.BoardSize; j++)
                 {
-                    CheckCell(j, i);
+                    CheckCell(i, j);
 
-                    if (_collector.Count >= 3)
-                    {
-                        foreach (var cell in _collector)
-                        {
-                            gameField[cell.Row, cell.Column].Gem = null;
-                            _clearedCells = true;
-                        }
-                    }
+                    ClearGameField(gameField);
 
                     _currentCell = null;
                     _collector.Clear();
+                }
+            }
+        }
+
+        private static void ClearGameField(FieldCell[,] gameField)
+        {
+            if (_collector.Count > 2)
+            {
+                var matchOnCol = _collector.GroupBy(x => x.Column).ToDictionary(e => e.Key, e => e.ToList());
+                var matchOnRow = _collector.GroupBy(x => x.Row).ToDictionary(e => e.Key, e => e.ToList());
+
+                foreach (var element in matchOnCol)
+                {
+                    if (element.Value.Count > 2)
+                    {
+                        GemsController.DeleteGems(element.Value, gameField);
+                    }
+                }
+
+                foreach (var element in matchOnRow)
+                {
+                    if (element.Value.Count > 2)
+                    {
+                        GemsController.DeleteGems(element.Value, gameField);
+                    }
                 }
             }
         }
@@ -113,27 +114,23 @@ namespace Match3.Core.Controllers
             }
         }
 
-        public static void MoveGems(FieldCell[,] gameField)
+        public static FieldCell GenerateNewFieldCell(int column, int row, Random random, EventHandler Cell_Click)
         {
-            for (int y = DefaultField.BoardSize - 1; y > 0; y--)
+            var cell = new FieldCell
             {
-                for (int x = 0; x < DefaultField.BoardSize; x++)
-                {
-                    if (gameField[y, x].Gem != null) continue;
-                    if (gameField[y - 1, x].Gem == null) continue;
+                Id = (column + 1) + 8 * row,
+                Column = column,
+                Row = row,
+                Position = new Vector2(DefaultCell.Width * column, DefaultCell.Height * 2 + DefaultCell.Height * row),
+                Texture = ContentController.GetTexture(BackgroundType.Ground.SpritePath())
+            };
 
-                    if (gameField[y - 1, x].Gem.Position != gameField[y, x].Position)
-                    {
-                        gameField[y - 1, x].Gem.Position = new Vector2(gameField[y - 1, x].Gem.Position.X, gameField[y - 1, x].Gem.Position.Y + 3);
-                    }
-                    else
-                    {
-                        gameField[y, x].Gem = (Gem)gameField[y - 1, x].Gem.Clone();
-                        gameField[y, x].SetGemPosition();
-                        gameField[y - 1, x].Gem = null;
-                    }
-                }
-            }
+            cell.Click += Cell_Click;
+
+            var type = (GemType)random.Next(1, 6);
+            cell.Gem = GemsController.GetNewGem(cell.Position, type);
+
+            return cell;
         }
     }
 }

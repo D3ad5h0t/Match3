@@ -11,7 +11,8 @@ namespace Match3.Enumerations
     {
         Sky,
         Grass,
-        Ground
+        Ground,
+        Full
     }
 
     public static class BackgroundTypeExtensions
@@ -22,7 +23,8 @@ namespace Match3.Enumerations
             {
                 "Backgrounds/5",
                 "UI/Bg3",
-                "UI/ElementBg"
+                "UI/ElementBg",
+                "Backgrounds/Full"
             };
 
             return GetComparisonResult(type, result);
@@ -40,6 +42,7 @@ namespace Match3.Enumerations
                 case BackgroundType.Sky: return results[0];
                 case BackgroundType.Grass: return results[1];
                 case BackgroundType.Ground: return results[2];
+                case BackgroundType.Full: return results[3];
                 default: return results[0];
             }
         }
