@@ -29,5 +29,16 @@
     public static class DefaultSettings
     {
         public const int Speed = 4;
+
+        public const int GemScore = 5;
+
+        public const float Timer = 60f;
+    }
+
+    public static class PopUpWindow
+    {
+        public const int Width = 334;
+
+        public const int Height = 220;
     }
 }

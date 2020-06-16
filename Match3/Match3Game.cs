@@ -34,8 +34,8 @@ namespace Match3
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            _currentState = new MenuState(this, graphics.GraphicsDevice, Content);
             ContentController.SetContent(Content);
+            _currentState = new MenuState(this, graphics.GraphicsDevice, Content);
         }
 
         protected override void UnloadContent()

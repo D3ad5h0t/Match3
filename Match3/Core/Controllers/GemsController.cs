@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Match3.Elements;
 using Match3.Elements.Gem;
 using Match3.Enumerations;
+using Match3.States;
 using Microsoft.Xna.Framework;
 
 namespace Match3.Core.Controllers
@@ -16,14 +17,19 @@ namespace Match3.Core.Controllers
         {
             foreach (var cell in list)
             {
-                gameField[cell.Row, cell.Column].Gem = null;
+                if (cell.Gem != null)
+                {
+                    GameState.Score += gameField[cell.Row, cell.Column].Gem.ScorePrice;
+                    gameField[cell.Row, cell.Column].Gem = null;
+                }
             }
         }
 
         public static void SwapGems(FieldCell firstCell, FieldCell secondCell)
         {
-            bool areNerby = FieldCellsConroller.AreCellsNerby(firstCell, secondCell);
-            if (areNerby)
+            var areNervy = FieldCellsConroller.AreCellsNerby(firstCell, secondCell);
+            
+            if (areNervy)
             {
                 var gem = (Gem)firstCell.Gem.Clone();
 
@@ -66,6 +72,8 @@ namespace Match3.Core.Controllers
                 Texture = ContentController.GetTexture(type.SpritePath()),
                 IsClicked = false,
                 IsLine = false,
+                IsBomb = false,
+                ScorePrice = DefaultSettings.GemScore,
                 Type = type
             };
 

@@ -16,6 +16,11 @@ namespace Match3.Elements.Gem
 
         public bool IsLine { get; set; }
 
+        public bool IsBomb { get; set;}
+
+        public int ScorePrice { get; set; }
+
+
         public override Rectangle Rectangle => new Rectangle(
             (int) Position.X + DefaultGem.DeltaWidth, 
             (int) Position.Y + DefaultGem.DeltaHeight, 

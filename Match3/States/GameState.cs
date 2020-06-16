@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Match3.Controls;
 using Match3.Core;
 using Match3.Core.Controllers;
+using Match3.Core.Models;
 using Match3.Elements;
 using Match3.Elements.Gem;
 using Match3.Enumerations;
@@ -20,6 +22,11 @@ namespace Match3.States
         private static FieldCell[,] _gameField = new FieldCell[DefaultField.BoardSize, DefaultField.BoardSize];
 
         private CurrentMove _move = null;
+        private SpriteFont gameFont;
+        private float _timer = DefaultSettings.Timer;
+        private EndWindow _gameOverWindow = null;
+
+        public static int Score = 0;
 
 
         public GameState(Match3Game game, GraphicsDevice graphicsDevice, ContentManager content)
@@ -35,6 +42,8 @@ namespace Match3.States
                     Position = Vector2.Zero
                 }
             };
+
+            gameFont = ContentController.GetFont("Fonts/galleryFont");
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -56,26 +65,57 @@ namespace Match3.States
                 cell.Gem?.Draw(gameTime, spriteBatch);
             }
 
+            spriteBatch.DrawString(gameFont,
+                $"Score: {Score.ToString()}",
+                new Vector2(3, 3),
+                Color.White);
+
+            spriteBatch.DrawString(gameFont,
+                $"Time: {Math.Ceiling(_timer).ToString()}",
+                new Vector2(3, 40),
+                Color.White);
+
+            _gameOverWindow?.Draw(gameTime, spriteBatch);
+
             spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
         {
-            FieldCellsConroller.MatchAndClear(_gameField);
+            _gameOverWindow?.Update(gameTime);
+
+            if (_timer > 0)
+            {
+                _timer -= (float) gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                if (_gameOverWindow == null)
+                {
+                    _gameOverWindow = new EndWindow(_game, EndButton_Click);
+                }
+
+                return;
+            }
+
+            var emptyCellsCount = 0;
+
+            foreach (var cell in _gameField)
+            {
+                if (cell.Gem == null) emptyCellsCount++;
+            }
+
+            if (emptyCellsCount == 0)
+            {
+                FieldCellsConroller.MatchAndClear(_gameField);
+            }
+
             GemsController.MoveGems(_gameField);
 
-
-            if (_move != null)
+            if (_move?.FirstCell?.Gem != null && _move?.SecondCell?.Gem != null)
             {
-                if (_move.FirstCell?.Gem == null || _move.SecondCell?.Gem == null)
-                {
-                    ;
-                }
-                else
-                {
-                    GemsController.SwapGems(_move.FirstCell, _move.SecondCell);
-                    _move = null;
-                }
+                GemsController.SwapGems(_move.FirstCell, _move.SecondCell);
+                _move = null;
             }
 
             GemsController.GenerateNewGems(_gameField);
@@ -97,7 +137,7 @@ namespace Match3.States
                 for (int j = 0; j < 8; j++)
                 {
                     var cell = FieldCellsConroller.GenerateNewFieldCell(j, i, random, Cell_Click);
-                    result[i,j] = cell;
+                    result[i, j] = cell;
                 }
             }
 
@@ -106,7 +146,7 @@ namespace Match3.States
 
         private void Cell_Click(object sender, EventArgs e)
         {
-            FieldCell clickedCell = (FieldCell) sender;
+            FieldCell clickedCell = (FieldCell)sender;
 
             if (clickedCell.Gem == null) return;
 
@@ -133,20 +173,10 @@ namespace Match3.States
                 _prevCell = clickedCell;
             }
         }
-    }
 
-
-    public class CurrentMove
-    {
-        public FieldCell FirstCell { get; set; }
-
-        public FieldCell SecondCell { get; set; }
-
-
-        public CurrentMove(FieldCell first, FieldCell second)
+        private void EndButton_Click(object sender, EventArgs e)
         {
-            FirstCell = first;
-            SecondCell = second;
+            _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
         }
     }
 }

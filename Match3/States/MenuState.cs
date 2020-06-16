@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Match3.Controls;
+using Match3.Controls.Button;
 using Match3.Core.Controllers;
 using Match3.Elements;
 using Match3.Enumerations;
@@ -24,24 +25,23 @@ namespace Match3.States
                 Position = new Vector2(0, 0)
             };
 
-            var buttonType = ButtonType.Yellow;
-            var buttonTexture = _content.Load<Texture2D>(buttonType.SpritePath());
-            var buttonFont = _content.Load<SpriteFont>(buttonType.FontPath());
-
-            var startButton = new Button(buttonTexture, buttonFont)
-            {
-                Text = "Play",
-                Position = new Vector2(
-                    game.Window.ClientBounds.Width / 2f - buttonType.ButtonWidth() / 2f,
-                    game.Window.ClientBounds.Height / 2f - buttonType.ButtonHeight() / 2f)
-            };
-
-            startButton.Click += StartButton_Click;
+            var btnType = ButtonType.Yellow;
+            var startBtn = new ButtonBuilder()
+                .AddType(btnType)
+                .AddTextureByType()
+                .AddFontByType()
+                .AddText("Play")
+                .AddPenColor(Color.Black)
+                .OnClick(StartButton_Click)
+                .AddPosition(new Vector2(
+                    game.Window.ClientBounds.Width / 2f - btnType.ButtonWidth() / 2f,
+                    game.Window.ClientBounds.Height / 2f - btnType.ButtonHeight() / 2f))
+                .Build();
 
             _elements = new List<Element>()
             {
                 background,
-                startButton
+                startBtn
             };
         }
 

@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Match3.Elements;
+using Match3.Enumerations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Match3.Controls
+namespace Match3.Controls.Button
 {
     public class Button : Element
     {
-        private SpriteFont _font;
         private MouseState _currentMouse;
         private MouseState _previousMouse;
         private bool _isHovering;
@@ -20,16 +16,22 @@ namespace Match3.Controls
 
         public event EventHandler Click;
 
-        public Color PenColour { get; set; }
-
+        public Color PenColor { get; set; }
         public string Text { get; set; }
+        public ButtonType Type { get; set; }
+        public SpriteFont Font { get; set; }
 
+
+        public Button()
+        {
+            
+        }
 
         public Button(Texture2D texture, SpriteFont font)
         {
             Texture = texture;
-            _font = font;
-            PenColour = Color.Black;
+            Font = font;
+            PenColor = Color.Black;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -45,10 +47,10 @@ namespace Match3.Controls
 
             if (!string.IsNullOrWhiteSpace(Text))
             {
-                var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);
-                var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_font.MeasureString(Text).Y / 2);
+                var x = (Rectangle.X + (Rectangle.Width / 2)) - (Font.MeasureString(Text).X / 2);
+                var y = (Rectangle.Y + (Rectangle.Height / 2)) - (Font.MeasureString(Text).Y / 2);
 
-                spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColour);
+                spriteBatch.DrawString(Font, Text, new Vector2(x, y), PenColor);
             }
         }
 

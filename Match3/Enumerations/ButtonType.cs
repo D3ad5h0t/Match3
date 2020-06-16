@@ -31,6 +31,8 @@ namespace Match3.Enumerations
         {
             List<string> results = new List<string>()
             {
+                "Fonts/galleryFont",
+                "Fonts/galleryFont",
                 "Fonts/galleryFont"
             };
 
@@ -59,7 +61,7 @@ namespace Match3.Enumerations
 
         private static T GetComparisonResult<T>(ButtonType type, List<T> results)
         {
-            if ((int) type >= results.Count)
+            if ((int) type > results.Count)
             {
                 throw new ArgumentOutOfRangeException();
             }

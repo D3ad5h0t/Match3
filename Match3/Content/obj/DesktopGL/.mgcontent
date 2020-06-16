@@ -65,8 +65,10 @@
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/UI/Button2.png</File>
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/UI/Button6.png</File>
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/UI/ElementBg.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/UI/popupBox.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

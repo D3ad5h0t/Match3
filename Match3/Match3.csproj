@@ -42,12 +42,15 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controls\Button\ButtonBuilder.cs" />
+    <Compile Include="Controls\EndWindow.cs" />
     <Compile Include="Core\Controllers\FieldCellsConroller.cs" />
-    <Compile Include="Controls\Button.cs" />
+    <Compile Include="Controls\Button\Button.cs" />
     <Compile Include="Core\Controllers\GemsController.cs" />
     <Compile Include="Core\Controllers\ContentController.cs" />
     <Compile Include="Core\DefaultValues.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />
+    <Compile Include="Core\Models\CurrentMove.cs" />
     <Compile Include="Elements\Background.cs" />
     <Compile Include="Elements\Element.cs" />
     <Compile Include="Elements\FieldCell.cs" />
@@ -121,6 +124,7 @@
     </None>
     <None Include="app.manifest" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
