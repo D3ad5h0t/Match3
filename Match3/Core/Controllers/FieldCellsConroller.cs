@@ -108,12 +108,12 @@ namespace Match3.Core.Controllers
         {
             FieldCell bonus = null;
 
-            if (GameState.Move.FirstCell != null && element.Contains(GameState.Move.FirstCell))
+            if (GameState.Move != null && GameState.Move.FirstCell != null && element.Contains(GameState.Move.FirstCell))
             {
                 bonus = GameState.Move.FirstCell;
             }
 
-            if (GameState.Move.SecondCell != null && element.Contains(GameState.Move.SecondCell))
+            if (GameState.Move != null && GameState.Move.SecondCell != null && element.Contains(GameState.Move.SecondCell))
             {
                 bonus = GameState.Move.SecondCell;
             }

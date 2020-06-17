@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Controls\Button\ButtonBuilder.cs" />
     <Compile Include="Controls\EndWindow.cs" />
+    <Compile Include="Core\Controllers\BonusController.cs" />
     <Compile Include="Core\Controllers\FieldCellsConroller.cs" />
     <Compile Include="Controls\Button\Button.cs" />
     <Compile Include="Core\Controllers\GemsController.cs" />

@@ -17,6 +17,15 @@ namespace Match3.Core.Controllers
         {
             foreach (var cell in list)
             {
+                DeleteGem(cell);
+            }
+        }
+
+        public static void DeleteGem(FieldCell cell)
+        {
+            if (cell.Gem != null)
+            {
+                GameState.Score += cell.Gem.ScorePrice;
                 cell.Gem = null;
             }
         }
@@ -68,7 +77,8 @@ namespace Match3.Core.Controllers
                 Texture = ContentController.GetTexture(type.SpritePath()),
                 IsClicked = false,
                 ScorePrice = DefaultSettings.GemScore,
-                Type = type
+                Type = type,
+                WasMoved = false
             };
 
             return newGem;

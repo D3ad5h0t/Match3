@@ -26,6 +26,7 @@ namespace Match3.States
 
         public static CurrentMove Move = null;
         public static int Score = 0;
+        public static List<FieldCell> ActivatedBombs = new List<FieldCell>();
 
 
         public GameState(Match3Game game, GraphicsDevice graphicsDevice, ContentManager content)
@@ -43,6 +44,12 @@ namespace Match3.States
             };
 
             gameFont = ContentController.GetFont("Fonts/galleryFont");
+
+
+
+            //TODO Для тестирования - потом удалить!!!
+            _gameField[0, 0].Gem = GemsController.GetNewGem(_gameField[0, 0].Position, GemType.Bomb);
+            //_gameField[1, 1].Gem = GemsController.GetNewGem(_gameField[1, 1].Position, GemType.Bomb);
         }
 
 
@@ -89,6 +96,35 @@ namespace Match3.States
 
             //TODO Вернуть возвращение элементов если не произошло удаление
 
+
+            foreach (var cell in _gameField)
+            {
+                if (cell.Gem != null && cell.Gem.WasMoved && cell.Gem.Type == GemType.Bomb)
+                {
+                    ActivatedBombs.Add((FieldCell) cell.Clone());
+                    GemsController.DeleteGem(cell);
+                }
+            }
+
+            if (ActivatedBombs.Count > 0)
+            {
+                foreach (var bomb in ActivatedBombs)
+                {
+                    if (bomb.Gem.Timer > 0)
+                    {
+                        bomb.Gem.Timer -= DefaultSettings.BombTick;
+                    }
+                    else
+                    {
+                        BonusController.BlowBomb(bomb, _gameField);
+                        bomb.Gem.WasMoved = false;
+                    }
+                }
+
+                ActivatedBombs.RemoveAll(x => !x.Gem.WasMoved);
+            }
+
+
             GemsController.MoveGems(_gameField);
             GemsController.GenerateNewGems(_gameField);
 
@@ -105,7 +141,7 @@ namespace Match3.States
 
             if (_timer > 0)
             {
-                _timer -= (float) gameTime.ElapsedGameTime.TotalSeconds;
+                _timer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
             else
             {

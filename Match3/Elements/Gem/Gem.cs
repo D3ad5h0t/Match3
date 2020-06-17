@@ -18,6 +18,8 @@ namespace Match3.Elements.Gem
 
         public int ScorePrice { get; set; }
 
+        public float Timer { get; set; } = DefaultSettings.BobmTimer;
+
 
         public override Rectangle Rectangle => new Rectangle(
             (int) Position.X + DefaultGem.DeltaWidth, 

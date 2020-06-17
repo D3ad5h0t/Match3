@@ -33,6 +33,10 @@
         public const int GemScore = 5;
 
         public const float Timer = 60f;
+
+        public const float BobmTimer = 0.25f;
+
+        public const float BombTick = 0.016f;
     }
 
     public static class PopUpWindow
