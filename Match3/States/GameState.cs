@@ -20,12 +20,11 @@ namespace Match3.States
     {
         private static FieldCell _prevCell = null;
         private static FieldCell[,] _gameField = new FieldCell[DefaultField.BoardSize, DefaultField.BoardSize];
-
-        private CurrentMove _move = null;
         private SpriteFont gameFont;
         private float _timer = DefaultSettings.Timer;
         private EndWindow _gameOverWindow = null;
 
+        public static CurrentMove Move = null;
         public static int Score = 0;
 
 
@@ -45,6 +44,7 @@ namespace Match3.States
 
             gameFont = ContentController.GetFont("Fonts/galleryFont");
         }
+
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -80,7 +80,26 @@ namespace Match3.States
             spriteBatch.End();
         }
 
+
         public override void Update(GameTime gameTime)
+        {
+            if (CheckGameTimer(gameTime)) return;
+
+            FieldCellsConroller.MatchAndClear(_gameField);
+
+            //TODO Вернуть возвращение элементов если не произошло удаление
+
+            GemsController.MoveGems(_gameField);
+            GemsController.GenerateNewGems(_gameField);
+
+            foreach (var cell in _gameField)
+            {
+                cell.Update(gameTime);
+                cell.Gem?.Update(gameTime);
+            }
+        }
+
+        private bool CheckGameTimer(GameTime gameTime)
         {
             _gameOverWindow?.Update(gameTime);
 
@@ -95,37 +114,12 @@ namespace Match3.States
                     _gameOverWindow = new EndWindow(_game, EndButton_Click);
                 }
 
-                return;
+                return true;
             }
 
-            var emptyCellsCount = 0;
-
-            foreach (var cell in _gameField)
-            {
-                if (cell.Gem == null) emptyCellsCount++;
-            }
-
-            if (emptyCellsCount == 0)
-            {
-                FieldCellsConroller.MatchAndClear(_gameField);
-            }
-
-            GemsController.MoveGems(_gameField);
-
-            if (_move?.FirstCell?.Gem != null && _move?.SecondCell?.Gem != null)
-            {
-                GemsController.SwapGems(_move.FirstCell, _move.SecondCell);
-                _move = null;
-            }
-
-            GemsController.GenerateNewGems(_gameField);
-
-            foreach (var cell in _gameField)
-            {
-                cell.Update(gameTime);
-                cell.Gem?.Update(gameTime);
-            }
+            return false;
         }
+
 
         private FieldCell[,] GetPlayingField()
         {
@@ -144,6 +138,7 @@ namespace Match3.States
             return result;
         }
 
+
         private void Cell_Click(object sender, EventArgs e)
         {
             FieldCell clickedCell = (FieldCell)sender;
@@ -153,7 +148,9 @@ namespace Match3.States
             if (_prevCell != null)
             {
                 GemsController.SwapGems(clickedCell, _prevCell);
-                _move = new CurrentMove(clickedCell, _prevCell);
+                Move = new CurrentMove(clickedCell, _prevCell);
+                clickedCell.Gem.WasMoved = true;
+                _prevCell.Gem.WasMoved = true;
 
                 foreach (var cell in _gameField)
                 {
@@ -173,6 +170,7 @@ namespace Match3.States
                 _prevCell = clickedCell;
             }
         }
+
 
         private void EndButton_Click(object sender, EventArgs e)
         {

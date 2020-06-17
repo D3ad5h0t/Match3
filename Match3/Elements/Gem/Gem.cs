@@ -14,9 +14,7 @@ namespace Match3.Elements.Gem
 
         public bool IsClicked { get; set; }
 
-        public bool IsLine { get; set; }
-
-        public bool IsBomb { get; set;}
+        public bool WasMoved { get; set; }
 
         public int ScorePrice { get; set; }
 

@@ -13,15 +13,11 @@ namespace Match3.Core.Controllers
 {
     public static class GemsController
     {
-        public static void DeleteGems(List<FieldCell> list, FieldCell[,] gameField)
+        public static void DeleteGems(List<FieldCell> list)
         {
             foreach (var cell in list)
             {
-                if (cell.Gem != null)
-                {
-                    GameState.Score += gameField[cell.Row, cell.Column].Gem.ScorePrice;
-                    gameField[cell.Row, cell.Column].Gem = null;
-                }
+                cell.Gem = null;
             }
         }
 
@@ -71,8 +67,6 @@ namespace Match3.Core.Controllers
                 Position = position,
                 Texture = ContentController.GetTexture(type.SpritePath()),
                 IsClicked = false,
-                IsLine = false,
-                IsBomb = false,
                 ScorePrice = DefaultSettings.GemScore,
                 Type = type
             };

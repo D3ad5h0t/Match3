@@ -6,6 +6,7 @@ using System.Runtime.Remoting.Messaging;
 using Match3.Elements;
 using Match3.Elements.Gem;
 using Match3.Enumerations;
+using Match3.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -26,14 +27,23 @@ namespace Match3.Core.Controllers
                 : ContentController.GetTexture(gem.Type.SpritePath());
         }
 
-        public static bool AreCellsNerby(FieldCell firstCell, FieldCell secondCell) =>
-            firstCell.Id + 1 == secondCell.Id ||
-            firstCell.Id - 1 == secondCell.Id ||
-            firstCell.Id + 8 == secondCell.Id ||
-            firstCell.Id - 8 == secondCell.Id;
+
+        public static bool AreCellsNerby(FieldCell firstCell, FieldCell secondCell)
+        {
+            return firstCell.Id + 1 == secondCell.Id || firstCell.Id - 1 == secondCell.Id || firstCell.Id + 8 == secondCell.Id || firstCell.Id - 8 == secondCell.Id;
+        }
+
 
         public static void MatchAndClear(FieldCell[,] gameField)
         {
+            int emptyCount = 0;
+            foreach (var cell in gameField)
+            {
+                if (cell?.Gem == null) emptyCount++;
+            }
+
+            if (emptyCount != 0) return;
+
             CopyField(gameField, _gameField);
             _currentCell = null;
             _collector.Clear();
@@ -44,7 +54,7 @@ namespace Match3.Core.Controllers
                 {
                     CheckCell(i, j);
 
-                    ClearGameField(gameField);
+                    ChangeFieldState(gameField);
 
                     _currentCell = null;
                     _collector.Clear();
@@ -52,30 +62,70 @@ namespace Match3.Core.Controllers
             }
         }
 
-        private static void ClearGameField(FieldCell[,] gameField)
+
+        private static void ChangeFieldState(FieldCell[,] gameField)
         {
             if (_collector.Count > 2)
             {
-                var matchOnCol = _collector.GroupBy(x => x.Column).ToDictionary(e => e.Key, e => e.ToList());
-                var matchOnRow = _collector.GroupBy(x => x.Row).ToDictionary(e => e.Key, e => e.ToList());
+                var matchOnCol = _collector.GroupBy(x => x.Column)
+                                           .ToDictionary(e => e.Key, e => e.ToList())
+                                           .Values.Where(x => x.Count > 2)
+                                           .ToList();
 
-                foreach (var element in matchOnCol)
+                var matchOnRow = _collector.GroupBy(x => x.Row)
+                                           .ToDictionary(e => e.Key, e => e.ToList())
+                                           .Values.Where(x => x.Count > 2)
+                                           .ToList();
+
+                SetCoincidenceResults(matchOnCol, DirectionType.Vertical);
+                SetCoincidenceResults(matchOnRow, DirectionType.Horizontal);
+            }
+        }
+
+
+        private static void SetCoincidenceResults(List<List<FieldCell>> list, DirectionType type)
+        {
+            foreach (var element in list)
+            {
+                if (element.Count > 2 && element.Count < 4)
                 {
-                    if (element.Value.Count > 2)
-                    {
-                        GemsController.DeleteGems(element.Value, gameField);
-                    }
+                    GemsController.DeleteGems(element);
                 }
-
-                foreach (var element in matchOnRow)
+                else if (element.Count > 3 && element.Count < 5)
                 {
-                    if (element.Value.Count > 2)
-                    {
-                        GemsController.DeleteGems(element.Value, gameField);
-                    }
+                    var gemType = type == DirectionType.Horizontal ? GemType.HorizontalLine : GemType.VerticalLine;
+
+                    AddNewBonus(element, gemType);
+                }
+                else if (element.Count > 4)
+                {
+                    AddNewBonus(element, GemType.Bomb);
                 }
             }
         }
+
+        private static void AddNewBonus(List<FieldCell> element, GemType gemType)
+        {
+            FieldCell bonus = null;
+
+            if (GameState.Move.FirstCell != null && element.Contains(GameState.Move.FirstCell))
+            {
+                bonus = GameState.Move.FirstCell;
+            }
+
+            if (GameState.Move.SecondCell != null && element.Contains(GameState.Move.SecondCell))
+            {
+                bonus = GameState.Move.SecondCell;
+            }
+
+            bonus = bonus ?? element.Last();
+            bonus.Gem = GemsController.GetNewGem(bonus.Position, gemType);
+
+            element.Remove(bonus);
+
+            GemsController.DeleteGems(element);
+        }
+
 
         private static void CheckCell(int x, int y)
         {
@@ -114,7 +164,7 @@ namespace Match3.Core.Controllers
             }
         }
 
-        public static FieldCell GenerateNewFieldCell(int column, int row, Random random, EventHandler Cell_Click)
+        public static FieldCell GenerateNewFieldCell(int column, int row, Random random, EventHandler onClick)
         {
             var cell = new FieldCell
             {
@@ -125,7 +175,7 @@ namespace Match3.Core.Controllers
                 Texture = ContentController.GetTexture(BackgroundType.Ground.SpritePath())
             };
 
-            cell.Click += Cell_Click;
+            cell.Click += onClick;
 
             var type = (GemType)random.Next(1, 6);
             cell.Gem = GemsController.GetNewGem(cell.Position, type);

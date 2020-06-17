@@ -28,7 +28,7 @@
 
     public static class DefaultSettings
     {
-        public const int Speed = 4;
+        public const int Speed = 3;
 
         public const int GemScore = 5;
 

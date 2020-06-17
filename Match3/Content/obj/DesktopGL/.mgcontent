@@ -27,6 +27,14 @@
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Bomb/6.png</File>
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Bomb/7.png</File>
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Bomb/ElementSelected.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Earth/1.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Earth/2.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Earth/3.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Earth/4.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Earth/5.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Earth/6.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Earth/7.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Earth/ElementSelected.png</File>
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Fire/1.png</File>
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Fire/2.png</File>
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Fire/3.png</File>
@@ -35,6 +43,10 @@
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Fire/6.png</File>
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Fire/7.png</File>
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Fire/ElementSelected.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Line/horizontal.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Line/horizontalSelected.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Line/vertical.png</File>
+    <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Line/verticalSelected.png</File>
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Meat/1.png</File>
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Meat/2.png</File>
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/Elements/Meat/3.png</File>
@@ -68,6 +80,18 @@
     <File>C:/Users/glushchenko/Dropbox/dotNet/MonoGame/Match3/Match3/Content/UI/popupBox.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

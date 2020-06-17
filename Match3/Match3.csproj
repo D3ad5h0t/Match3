@@ -57,6 +57,7 @@
     <Compile Include="Elements\Gem\Gem.cs" />
     <Compile Include="Enumerations\BackgroundType.cs" />
     <Compile Include="Enumerations\ButtonType.cs" />
+    <Compile Include="Enumerations\DirectionType.cs" />
     <Compile Include="Enumerations\GemType.cs" />
     <Compile Include="Match3Game.cs" />
     <Compile Include="Program.cs" />
