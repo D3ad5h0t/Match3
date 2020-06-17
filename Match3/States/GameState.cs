@@ -8,6 +8,7 @@ using Match3.Core;
 using Match3.Core.Controllers;
 using Match3.Core.Models;
 using Match3.Elements;
+using Match3.Elements.Destroyer;
 using Match3.Elements.Gem;
 using Match3.Enumerations;
 using Microsoft.Xna.Framework;
@@ -19,20 +20,21 @@ namespace Match3.States
     public class GameState : State
     {
         private static FieldCell _prevCell = null;
-        private static FieldCell[,] _gameField = new FieldCell[DefaultField.BoardSize, DefaultField.BoardSize];
         private SpriteFont gameFont;
         private float _timer = DefaultSettings.Timer;
         private EndWindow _gameOverWindow = null;
 
+        public static FieldCell[,] GameField = new FieldCell[DefaultField.BoardSize, DefaultField.BoardSize];
         public static CurrentMove Move = null;
         public static int Score = 0;
         public static List<FieldCell> ActivatedBombs = new List<FieldCell>();
+        public static List<Destroyer> Destroyers = new List<Destroyer>();
 
 
         public GameState(Match3Game game, GraphicsDevice graphicsDevice, ContentManager content)
             : base(game, graphicsDevice, content)
         {
-            _gameField = GetPlayingField();
+            GameField = GetPlayingField();
 
             _elements = new List<Element>()
             {
@@ -48,8 +50,8 @@ namespace Match3.States
 
 
             //TODO Для тестирования - потом удалить!!!
-            _gameField[0, 0].Gem = GemsController.GetNewGem(_gameField[0, 0].Position, GemType.Bomb);
-            //_gameField[1, 1].Gem = GemsController.GetNewGem(_gameField[1, 1].Position, GemType.Bomb);
+            GameField[0, 0].Gem = GemsController.GetNewGem(GameField[0, 0].Position, GemType.HorizontalLine);
+            GameField[1, 1].Gem = GemsController.GetNewGem(GameField[1, 1].Position, GemType.Bomb);
         }
 
 
@@ -62,14 +64,19 @@ namespace Match3.States
                 element.Draw(gameTime, spriteBatch);
             }
 
-            foreach (var cell in _gameField)
+            foreach (var cell in GameField)
             {
                 cell.Draw(gameTime, spriteBatch);
             }
 
-            foreach (var cell in _gameField)
+            foreach (var cell in GameField)
             {
                 cell.Gem?.Draw(gameTime, spriteBatch);
+            }
+
+            foreach (var destroyer in Destroyers)
+            {
+                destroyer.Draw(gameTime, spriteBatch);
             }
 
             spriteBatch.DrawString(gameFont,
@@ -92,43 +99,49 @@ namespace Match3.States
         {
             if (CheckGameTimer(gameTime)) return;
 
-            FieldCellsConroller.MatchAndClear(_gameField);
+            FieldCellsConroller.MatchAndClear(GameField);
 
             //TODO Вернуть возвращение элементов если не произошло удаление
 
 
-            foreach (var cell in _gameField)
+            foreach (var cell in GameField)
             {
-                if (cell.Gem != null && cell.Gem.WasMoved && cell.Gem.Type == GemType.Bomb)
+                if (cell.Gem != null && cell.Gem.WasMoved)
                 {
-                    ActivatedBombs.Add((FieldCell) cell.Clone());
-                    GemsController.DeleteGem(cell);
+                    switch (cell.Gem.Type)
+                    {
+                        case GemType.Bomb:
+                            ActivatedBombs.Add((FieldCell)cell.Clone());
+                            GemsController.DeleteGem(cell);
+                            break;
+                        case GemType.VerticalLine:
+                        case GemType.HorizontalLine:
+                            BonusController.LaunchDestroyers(cell);
+                            GemsController.DeleteGem(cell);
+                            break;
+                    }
                 }
             }
 
-            if (ActivatedBombs.Count > 0)
+            foreach (var destroyer in Destroyers)
             {
-                foreach (var bomb in ActivatedBombs)
-                {
-                    if (bomb.Gem.Timer > 0)
-                    {
-                        bomb.Gem.Timer -= DefaultSettings.BombTick;
-                    }
-                    else
-                    {
-                        BonusController.BlowBomb(bomb, _gameField);
-                        bomb.Gem.WasMoved = false;
-                    }
-                }
-
-                ActivatedBombs.RemoveAll(x => !x.Gem.WasMoved);
+                destroyer.Update(gameTime);
             }
 
+            BonusController.BlowActivatedBombs();
+            BonusController.UseDestoyers();
 
-            GemsController.MoveGems(_gameField);
-            GemsController.GenerateNewGems(_gameField);
+            if (Destroyers.Count == 0)
+            {
+                GemsController.MoveGems(GameField);
+                GemsController.GenerateNewGems(GameField);
+            }
+            else
+            {
+                return;
+            }
 
-            foreach (var cell in _gameField)
+            foreach (var cell in GameField)
             {
                 cell.Update(gameTime);
                 cell.Gem?.Update(gameTime);
@@ -188,7 +201,7 @@ namespace Match3.States
                 clickedCell.Gem.WasMoved = true;
                 _prevCell.Gem.WasMoved = true;
 
-                foreach (var cell in _gameField)
+                foreach (var cell in GameField)
                 {
                     if (cell.Gem != null)
                     {

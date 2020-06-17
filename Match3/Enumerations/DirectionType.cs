@@ -11,4 +11,12 @@ namespace Match3.Enumerations
         Horizontal,
         Vertical
     }
+
+    public enum CoordinateDirection
+    {
+        Left,
+        Right,
+        Up,
+        Down
+    }
 }

@@ -53,6 +53,7 @@
     <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\Models\CurrentMove.cs" />
     <Compile Include="Elements\Background.cs" />
+    <Compile Include="Elements\Destroyer\Destroyer.cs" />
     <Compile Include="Elements\Element.cs" />
     <Compile Include="Elements\FieldCell.cs" />
     <Compile Include="Elements\Gem\Gem.cs" />
