@@ -42,11 +42,11 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Controls\Button\ButtonBuilder.cs" />
-    <Compile Include="Controls\EndWindow\EndWindow.cs" />
+    <Compile Include="Elements\Button\ButtonBuilder.cs" />
+    <Compile Include="Elements\EndWindow\EndWindow.cs" />
     <Compile Include="Core\Controllers\BonusController.cs" />
     <Compile Include="Core\Controllers\FieldCellsConroller.cs" />
-    <Compile Include="Controls\Button\Button.cs" />
+    <Compile Include="Elements\Button\Button.cs" />
     <Compile Include="Core\Controllers\GemsController.cs" />
     <Compile Include="Core\Controllers\ContentController.cs" />
     <Compile Include="Core\DefaltConst\DefaultValues.cs" />

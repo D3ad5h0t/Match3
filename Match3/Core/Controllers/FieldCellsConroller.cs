@@ -22,14 +22,6 @@ namespace Match3.Core.Controllers
         private static List<FieldCell> _collector = new List<FieldCell>();
 
 
-        public static void UpdateTexture(Gem gem)
-        {
-            gem.Texture = gem.IsClicked
-                ? ContentController.GetTexture(gem.Type.SelectedSpritePath())
-                : ContentController.GetTexture(gem.Type.SpritePath());
-        }
-
-
         public static bool AreCellsNerby(FieldCell firstCell, FieldCell secondCell)
         {
             return firstCell.Id + 1 == secondCell.Id || firstCell.Id - 1 == secondCell.Id || firstCell.Id + 8 == secondCell.Id || firstCell.Id - 8 == secondCell.Id;

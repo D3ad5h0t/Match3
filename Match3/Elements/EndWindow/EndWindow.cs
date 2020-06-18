@@ -1,14 +1,12 @@
 ﻿using System;
-using Match3.Controls.Button;
-using Match3.Core;
 using Match3.Core.Controllers;
 using Match3.Core.DefaltConst;
-using Match3.Elements;
+using Match3.Elements.Button;
 using Match3.Enumerations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Match3.Controls.EndWindow
+namespace Match3.Elements.EndWindow
 {
     public class EndWindow : Element
     {

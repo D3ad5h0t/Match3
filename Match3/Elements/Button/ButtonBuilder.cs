@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Match3.Core.Controllers;
 using Match3.Enumerations;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace Match3.Controls.Button
+namespace Match3.Elements.Button
 {
     public class ButtonBuilder
     {

@@ -98,5 +98,14 @@ namespace Match3.Core.Controllers
                 }
             }
         }
+
+        public static void UpdateGemTexture(Gem gem)
+        {
+            if (gem != null)
+            {
+                gem.Texture = gem.IsClicked ? ContentController.GetTexture(gem.Type.SelectedSpritePath())
+                                            : ContentController.GetTexture(gem.Type.SpritePath());
+            }
+        }
     }
 }

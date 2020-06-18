@@ -1,11 +1,10 @@
 ﻿using System;
-using Match3.Elements;
 using Match3.Enumerations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Match3.Controls.Button
+namespace Match3.Elements.Button
 {
     public class Button : Element
     {

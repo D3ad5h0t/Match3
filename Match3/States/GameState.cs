@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Match3.Controls;
-using Match3.Controls.EndWindow;
-using Match3.Core;
 using Match3.Core.Controllers;
 using Match3.Core.DefaltConst;
 using Match3.Core.Models;
 using Match3.Elements;
 using Match3.Elements.Background;
 using Match3.Elements.Destroyer;
+using Match3.Elements.EndWindow;
 using Match3.Elements.FieldCell;
-using Match3.Elements.Gem;
 using Match3.Enumerations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -40,16 +34,11 @@ namespace Match3.States
         {
             GameField = GetPlayingField();
 
-            _elements = new List<Element>()
-            {
-                new Background
-                {
-                    Texture = ContentController.GetTexture(BackgroundType.Full.SpritePath()),
-                    Position = Vector2.Zero
-                }
-            };
+            _elements = new List<Element>();
+            _elements.Add(new Background(ContentController.GetTexture(BackgroundType.Full.SpritePath()), Vector2.Zero));
 
             gameFont = ContentController.GetFont("Fonts/galleryFont");
+            _gameOverWindow = new EndWindow(_game, EndButton_Click);
 
 
 
@@ -63,86 +52,101 @@ namespace Match3.States
         {
             spriteBatch.Begin();
 
+            DrawElements(gameTime, spriteBatch);
+
+            DrawGameField(gameTime, spriteBatch);
+
+            DrawGems(gameTime, spriteBatch);
+
+            DrawScoreText(spriteBatch);
+
+            DrawTimerValue(spriteBatch);
+
+            DrawDestroeyers(gameTime, spriteBatch);
+
+            if (IsTimerEnded(gameTime))
+            {
+                DrawGameOverWindow(gameTime, spriteBatch);
+            }
+            
+
+            spriteBatch.End();
+        }
+
+        private void DrawElements(GameTime gameTime, SpriteBatch spriteBatch)
+        {
             foreach (var element in _elements)
             {
                 element.Draw(gameTime, spriteBatch);
             }
+        }
 
-            foreach (var cell in GameField)
-            {
-                cell.Draw(gameTime, spriteBatch);
-            }
+        private void DrawGameOverWindow(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            _gameOverWindow?.Draw(gameTime, spriteBatch);
+        }
 
-            foreach (var cell in GameField)
-            {
-                cell.Gem?.Draw(gameTime, spriteBatch);
-            }
+        private void DrawTimerValue(SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawString(gameFont, $"Time: {Math.Ceiling(_timer).ToString()}", new Vector2(3, 40), Color.White);
+        }
 
+        private void DrawScoreText(SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawString(gameFont, $"Score: {Score.ToString()}", new Vector2(3, 3), Color.White);
+        }
+
+        private static void DrawDestroeyers(GameTime gameTime, SpriteBatch spriteBatch)
+        {
             foreach (var destroyer in Destroyers)
             {
                 destroyer.Draw(gameTime, spriteBatch);
             }
+        }
 
-            spriteBatch.DrawString(gameFont,
-                $"Score: {Score.ToString()}",
-                new Vector2(3, 3),
-                Color.White);
+        private static void DrawGems(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            foreach (var cell in GameField)
+            {
+                cell.Gem?.Draw(gameTime, spriteBatch);
+            }
+        }
 
-            spriteBatch.DrawString(gameFont,
-                $"Time: {Math.Ceiling(_timer).ToString()}",
-                new Vector2(3, 40),
-                Color.White);
-
-            _gameOverWindow?.Draw(gameTime, spriteBatch);
-
-            spriteBatch.End();
+        private static void DrawGameField(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            foreach (var cell in GameField)
+            {
+                cell.Draw(gameTime, spriteBatch);
+            }
         }
 
 
         public override void Update(GameTime gameTime)
         {
-            if (CheckGameTimer(gameTime)) return;
+            if (IsTimerEnded(gameTime))
+            {
+                _gameOverWindow?.Update(gameTime);
+
+                return;
+            }
 
             FieldCellsConroller.MatchAndClear(GameField);
 
             //TODO Вернуть возвращение элементов если не произошло удаление
 
 
-            foreach (var cell in GameField)
-            {
-                if (cell.Gem != null && cell.Gem.WasMoved)
-                {
-                    switch (cell.Gem.Type)
-                    {
-                        case GemType.Bomb:
-                            ActivatedBombs.Add((FieldCell)cell.Clone());
-                            GemsController.DeleteGem(cell);
-                            break;
-                        case GemType.VerticalLine:
-                        case GemType.HorizontalLine:
-                            BonusController.LaunchDestroyers(cell);
-                            GemsController.DeleteGem(cell);
-                            break;
-                    }
-                }
-            }
+            UpdateActivatedBonuses();
 
-            foreach (var destroyer in Destroyers)
-            {
-                destroyer.Update(gameTime);
-            }
+            UpdateDestroyers(gameTime);
 
             BonusController.BlowActivatedBombs();
+            
             BonusController.UseDestoyers();
 
             if (Destroyers.Count == 0)
             {
                 GemsController.MoveGems(GameField);
                 GemsController.GenerateNewGems(GameField);
-            }
-            else
-            {
-                return;
             }
 
             foreach (var cell in GameField)
@@ -152,25 +156,52 @@ namespace Match3.States
             }
         }
 
-        private bool CheckGameTimer(GameTime gameTime)
+        private static void UpdateDestroyers(GameTime gameTime)
         {
-            _gameOverWindow?.Update(gameTime);
+            foreach (var destroyer in Destroyers)
+            {
+                destroyer.Update(gameTime);
+            }
+        }
+
+        private static void UpdateActivatedBonuses()
+        {
+            foreach (var cell in GameField)
+            {
+                if (cell.Gem != null && cell.Gem.WasMoved)
+                {
+                    CheckGemAndActivateBonus(cell);
+                }
+            }
+        }
+
+        private static void CheckGemAndActivateBonus(FieldCell cell)
+        {
+            switch (cell.Gem.Type)
+            {
+                case GemType.Bomb:
+                    ActivatedBombs.Add((FieldCell) cell.Clone());
+                    GemsController.DeleteGem(cell);
+                    break;
+                case GemType.VerticalLine:
+                case GemType.HorizontalLine:
+                    BonusController.LaunchDestroyers(cell);
+                    GemsController.DeleteGem(cell);
+                    break;
+            }
+        }
+
+        private bool IsTimerEnded(GameTime gameTime)
+        {
+            bool isTimerEnded = true;
 
             if (_timer > 0)
             {
                 _timer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
-            else
-            {
-                if (_gameOverWindow == null)
-                {
-                    _gameOverWindow = new EndWindow(_game, EndButton_Click);
-                }
-
-                return true;
+                isTimerEnded = false;
             }
 
-            return false;
+            return isTimerEnded;
         }
 
 
@@ -207,11 +238,8 @@ namespace Match3.States
 
                 foreach (var cell in GameField)
                 {
-                    if (cell.Gem != null)
-                    {
-                        cell.Gem.IsClicked = false;
-                        FieldCellsConroller.UpdateTexture(cell.Gem);
-                    }
+                    if (cell.Gem != null) cell.Gem.IsClicked = false;
+                    GemsController.UpdateGemTexture(cell.Gem);
                 }
 
                 _prevCell = null;
@@ -219,7 +247,7 @@ namespace Match3.States
             else
             {
                 clickedCell.Gem.IsClicked = true;
-                FieldCellsConroller.UpdateTexture(clickedCell.Gem);
+                GemsController.UpdateGemTexture(clickedCell.Gem);
                 _prevCell = clickedCell;
             }
         }

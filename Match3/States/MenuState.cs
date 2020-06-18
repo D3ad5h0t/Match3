@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Match3.Controls;
-using Match3.Controls.Button;
 using Match3.Core.Controllers;
 using Match3.Elements;
 using Match3.Elements.Background;
+using Match3.Elements.Button;
 using Match3.Enumerations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -20,11 +19,7 @@ namespace Match3.States
         public MenuState(Match3Game game, GraphicsDevice graphicsDevice, ContentManager content)
             : base(game, graphicsDevice, content)
         {
-            var background = new Background()
-            {
-                Texture = _content.Load<Texture2D>(BackgroundType.Sky.SpritePath()),
-                Position = new Vector2(0, 0)
-            };
+            var background = new Background(ContentController.GetTexture(BackgroundType.Sky.SpritePath()), Vector2.Zero);
 
             var btnType = ButtonType.Yellow;
             var startBtn = new ButtonBuilder()

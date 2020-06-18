@@ -6,6 +6,12 @@ namespace Match3.Elements.Background
 {
     public class Background : Element
     {
+        public Background(Texture2D texture, Vector2 position)
+        {
+            Texture = texture;
+            Position = position;
+        }
+
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
