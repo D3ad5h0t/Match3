@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Match3.Elements;
+using Match3.Elements.FieldCell;
 
 namespace Match3.Core.Models
 {

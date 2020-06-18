@@ -1,5 +1,6 @@
 ﻿using System;
 using Match3.Core;
+using Match3.Core.DefaltConst;
 using Match3.Enumerations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

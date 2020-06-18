@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Match3.Core;
+﻿using Match3.Core.DefaltConst;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Match3.Elements
+namespace Match3.Elements.Background
 {
     public class Background : Element
     {

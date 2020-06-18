@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Match3.Core;
 using Match3.Core.Controllers;
+using Match3.Core.DefaltConst;
 using Match3.Enumerations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

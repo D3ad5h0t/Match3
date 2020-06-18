@@ -1,5 +1,6 @@
 ﻿using Match3.Core;
 using Match3.Core.Controllers;
+using Match3.Core.DefaltConst;
 using Match3.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

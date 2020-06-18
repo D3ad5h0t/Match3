@@ -7,6 +7,7 @@ using Match3.Controls;
 using Match3.Controls.Button;
 using Match3.Core.Controllers;
 using Match3.Elements;
+using Match3.Elements.Background;
 using Match3.Enumerations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;

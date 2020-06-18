@@ -1,4 +1,4 @@
-﻿namespace Match3.Core
+﻿namespace Match3.Core.DefaltConst
 {
     public static class DefaultWindow
     {

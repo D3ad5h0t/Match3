@@ -43,19 +43,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Controls\Button\ButtonBuilder.cs" />
-    <Compile Include="Controls\EndWindow.cs" />
+    <Compile Include="Controls\EndWindow\EndWindow.cs" />
     <Compile Include="Core\Controllers\BonusController.cs" />
     <Compile Include="Core\Controllers\FieldCellsConroller.cs" />
     <Compile Include="Controls\Button\Button.cs" />
     <Compile Include="Core\Controllers\GemsController.cs" />
     <Compile Include="Core\Controllers\ContentController.cs" />
-    <Compile Include="Core\DefaultValues.cs" />
-    <Compile Include="Core\ExtensionMethods.cs" />
+    <Compile Include="Core\DefaltConst\DefaultValues.cs" />
+    <Compile Include="Core\Extensions\ExtensionMethods.cs" />
     <Compile Include="Core\Models\CurrentMove.cs" />
-    <Compile Include="Elements\Background.cs" />
+    <Compile Include="Elements\Background\Background.cs" />
     <Compile Include="Elements\Destroyer\Destroyer.cs" />
     <Compile Include="Elements\Element.cs" />
-    <Compile Include="Elements\FieldCell.cs" />
+    <Compile Include="Elements\FieldCell\FieldCell.cs" />
     <Compile Include="Elements\Gem\Gem.cs" />
     <Compile Include="Enumerations\BackgroundType.cs" />
     <Compile Include="Enumerations\ButtonType.cs" />

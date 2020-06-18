@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using Match3.Controls.Button;
 using Match3.Core;
 using Match3.Core.Controllers;
+using Match3.Core.DefaltConst;
 using Match3.Elements;
 using Match3.Enumerations;
-using Match3.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Match3.Controls
+namespace Match3.Controls.EndWindow
 {
     public class EndWindow : Element
     {
@@ -25,24 +20,24 @@ namespace Match3.Controls
         {
             _gameFont = ContentController.GetFont("Fonts/galleryFont");
             Texture = ContentController.GetTexture("UI/popupBox");
+
             Position = new Vector2(
                 game.Window.ClientBounds.Width / 2f - PopUpWindow.Width / 2f,
                 game.Window.ClientBounds.Height / 2f - PopUpWindow.Height / 2f);
             _titleText = "Game Over!";
 
             var btnType = ButtonType.Yellow;
-            _submitBtn = new ButtonBuilder()
-                .AddType(btnType)
-                .AddFontByType()
-                .AddTextureByType()
-                .AddPenColor(Color.Black)
-                .AddText("Ok")
-                .OnClick(handler)
-                .AddPosition(new Vector2(
-                    Rectangle.Center.X / 2f + btnType.ButtonWidth() / 12f,
-                    Rectangle.Center.Y / 2f + (int)(btnType.ButtonHeight() * 1.5)))
-                .Build();
+            _submitBtn = new ButtonBuilder().AddType(btnType)
+                                            .AddFontByType()
+                                            .AddTextureByType()
+                                            .AddPenColor(Color.Black)
+                                            .AddText("Ok")
+                                            .OnClick(handler)
+                                            .AddPosition(new Vector2(Rectangle.Center.X / 2f + btnType.ButtonWidth() / 12f, Rectangle.Center.Y / 2f + (int)(btnType.ButtonHeight() * 1.5)))
+                                            .Build();
         }
+
+
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
