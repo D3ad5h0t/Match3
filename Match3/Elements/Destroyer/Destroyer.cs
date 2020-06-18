@@ -26,8 +26,8 @@ namespace Match3.Elements.Destroyer
             _coordinate = coordinate;
 
             Texture = direction == DirectionType.Horizontal
-                ? ContentController.GetTexture(GemType.HorizontalLine.SelectedSpritePath())
-                : ContentController.GetTexture(GemType.VerticalLine.SelectedSpritePath());
+                ? TextureController.GetTexture(GemType.HorizontalLine.SelectedSpritePath())
+                : TextureController.GetTexture(GemType.VerticalLine.SelectedSpritePath());
         }
 
 

@@ -16,8 +16,8 @@ namespace Match3.Elements.EndWindow
 
         public EndWindow(Game game, EventHandler handler)
         {
-            _gameFont = ContentController.GetFont("Fonts/galleryFont");
-            Texture = ContentController.GetTexture("UI/popupBox");
+            _gameFont = TextureController.GetFont("Fonts/galleryFont");
+            Texture = TextureController.GetTexture("UI/popupBox");
 
             Position = new Vector2(
                 game.Window.ClientBounds.Width / 2f - PopUpWindow.Width / 2f,

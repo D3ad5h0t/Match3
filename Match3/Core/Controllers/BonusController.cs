@@ -17,23 +17,22 @@ namespace Match3.Core.Controllers
     {
         public static void BlowActivatedBombs()
         {
-            if (GameState.ActivatedBombs.Count > 0)
-            {
-                foreach (var bomb in GameState.ActivatedBombs)
-                {
-                    if (bomb.Gem.Timer > 0)
-                    {
-                        bomb.Gem.Timer -= DefaultSettings.BombTick;
-                    }
-                    else
-                    {
-                        BlowBomb(bomb);
-                        bomb.Gem.WasMoved = false;
-                    }
-                }
+            if (GameState.ActivatedBombs.Count == 0) return;
 
-                GameState.ActivatedBombs.RemoveAll(x => !x.Gem.WasMoved);
+            foreach (var bomb in GameState.ActivatedBombs)
+            {
+                if (bomb.Gem.Timer > 0)
+                {
+                    bomb.Gem.Timer -= DefaultSettings.BombTick;
+                }
+                else
+                {
+                    BlowBomb(bomb);
+                    bomb.Gem.WasMoved = false;
+                }
             }
+
+            GameState.ActivatedBombs.RemoveAll(x => !x.Gem.WasMoved);
         }
 
         public static void BlowBomb(FieldCell cell)
@@ -49,17 +48,22 @@ namespace Match3.Core.Controllers
                     (cell.Row + 1 == fieldCell.Row && cell.Column - 1 == fieldCell.Column) ||
                     (cell.Row - 1 == fieldCell.Row && cell.Column - 1 == fieldCell.Column))
                 {
-                    if (fieldCell.Gem != null && (fieldCell.Gem.Type == GemType.Bomb || 
-                                                  fieldCell.Gem.Type == GemType.HorizontalLine ||
-                                                  fieldCell.Gem.Type == GemType.VerticalLine))
-                    {
-                        fieldCell.Gem.WasMoved = true;
-                    }
-                    else
-                    {
-                        GemsController.DeleteGem(fieldCell);
-                    }
+                    ChangeGemInBlastRadius(fieldCell);
                 }
+            }
+        }
+
+        private static void ChangeGemInBlastRadius(FieldCell fieldCell)
+        {
+            if (fieldCell.Gem != null && (fieldCell.Gem.Type == GemType.Bomb ||
+                                          fieldCell.Gem.Type == GemType.HorizontalLine ||
+                                          fieldCell.Gem.Type == GemType.VerticalLine))
+            {
+                fieldCell.Gem.WasMoved = true;
+            }
+            else
+            {
+                GemsController.DeleteGem(fieldCell);
             }
         }
 
@@ -102,17 +106,7 @@ namespace Match3.Core.Controllers
             {
                 if (fieldCell.Rectangle.Intersects(destroyer.Rectangle))
                 {
-                    if (fieldCell.Gem != null &&
-                        (fieldCell.Gem.Type == GemType.Bomb ||
-                         fieldCell.Gem.Type == GemType.HorizontalLine ||
-                         fieldCell.Gem.Type == GemType.VerticalLine))
-                    {
-                        fieldCell.Gem.WasMoved = true;
-                    }
-                    else
-                    {
-                        GemsController.DeleteGem(fieldCell);
-                    }
+                    ChangeGemInBlastRadius(fieldCell);
                 }
             }
         }

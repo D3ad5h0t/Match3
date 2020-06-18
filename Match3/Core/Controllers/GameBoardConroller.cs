@@ -15,26 +15,21 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Match3.Core.Controllers
 {
-    public static class FieldCellsConroller
+    public static class GameBoardConroller
     {
-        private static FieldCell[,] _gameField = new FieldCell[DefaultField.BoardSize, DefaultField.BoardSize];
         private static FieldCell _currentCell;
+        private static FieldCell[,] _gameField = new FieldCell[DefaultField.BoardSize, DefaultField.BoardSize];
         private static List<FieldCell> _collector = new List<FieldCell>();
 
 
-        public static bool AreCellsNerby(FieldCell firstCell, FieldCell secondCell)
+        public static bool IsCellsNearby(FieldCell firstCell, FieldCell secondCell)
         {
             return firstCell.Id + 1 == secondCell.Id || firstCell.Id - 1 == secondCell.Id || firstCell.Id + 8 == secondCell.Id || firstCell.Id - 8 == secondCell.Id;
         }
 
-
         public static void MatchAndClear(FieldCell[,] gameField)
         {
-            int emptyCount = 0;
-            foreach (var cell in gameField)
-            {
-                if (cell?.Gem == null) emptyCount++;
-            }
+            int emptyCount = gameField.OfType<FieldCell>().Count(cell => cell.Gem == null);
 
             if (emptyCount != 0) return;
 
@@ -48,7 +43,7 @@ namespace Match3.Core.Controllers
                 {
                     CheckCell(i, j);
 
-                    ChangeFieldState(gameField);
+                    ChangeGameBorderState(gameField);
 
                     _currentCell = null;
                     _collector.Clear();
@@ -57,7 +52,7 @@ namespace Match3.Core.Controllers
         }
 
 
-        private static void ChangeFieldState(FieldCell[,] gameField)
+        private static void ChangeGameBorderState(FieldCell[,] gameField)
         {
             if (_collector.Count > 2)
             {
@@ -166,7 +161,7 @@ namespace Match3.Core.Controllers
                 Column = column,
                 Row = row,
                 Position = new Vector2(DefaultCell.Width * column, DefaultCell.Height * 2 + DefaultCell.Height * row),
-                Texture = ContentController.GetTexture(BackgroundType.Ground.SpritePath())
+                Texture = TextureController.GetTexture(BackgroundType.Ground.SpritePath())
             };
 
             cell.Click += onClick;

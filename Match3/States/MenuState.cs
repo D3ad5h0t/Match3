@@ -19,7 +19,7 @@ namespace Match3.States
         public MenuState(Match3Game game, GraphicsDevice graphicsDevice, ContentManager content)
             : base(game, graphicsDevice, content)
         {
-            var background = new Background(ContentController.GetTexture(BackgroundType.Sky.SpritePath()), Vector2.Zero);
+            var background = new Background(TextureController.GetTexture(BackgroundType.Sky.SpritePath()), Vector2.Zero);
 
             var btnType = ButtonType.Yellow;
             var startBtn = new ButtonBuilder()

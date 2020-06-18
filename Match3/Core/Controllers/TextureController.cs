@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Match3.Core.Controllers
 {
-    public static class ContentController
+    public static class TextureController
     {
         private static ContentManager _content;
 

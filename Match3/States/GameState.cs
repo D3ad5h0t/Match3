@@ -35,9 +35,9 @@ namespace Match3.States
             GameField = GetPlayingField();
 
             _elements = new List<Element>();
-            _elements.Add(new Background(ContentController.GetTexture(BackgroundType.Full.SpritePath()), Vector2.Zero));
+            _elements.Add(new Background(TextureController.GetTexture(BackgroundType.Full.SpritePath()), Vector2.Zero));
 
-            gameFont = ContentController.GetFont("Fonts/galleryFont");
+            gameFont = TextureController.GetFont("Fonts/galleryFont");
             _gameOverWindow = new EndWindow(_game, EndButton_Click);
 
 
@@ -130,7 +130,7 @@ namespace Match3.States
                 return;
             }
 
-            FieldCellsConroller.MatchAndClear(GameField);
+            GameBoardConroller.MatchAndClear(GameField);
 
             //TODO Вернуть возвращение элементов если не произошло удаление
 
@@ -214,7 +214,7 @@ namespace Match3.States
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    var cell = FieldCellsConroller.GenerateNewFieldCell(j, i, random, Cell_Click);
+                    var cell = GameBoardConroller.GenerateNewFieldCell(j, i, random, Cell_Click);
                     result[i, j] = cell;
                 }
             }

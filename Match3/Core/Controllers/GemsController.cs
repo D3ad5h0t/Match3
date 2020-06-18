@@ -34,9 +34,9 @@ namespace Match3.Core.Controllers
 
         public static void SwapGems(FieldCell firstCell, FieldCell secondCell)
         {
-            var areNervy = FieldCellsConroller.AreCellsNerby(firstCell, secondCell);
+            var isCellsNearby = GameBoardConroller.IsCellsNearby(firstCell, secondCell);
             
-            if (areNervy)
+            if (isCellsNearby)
             {
                 var gem = (Gem)firstCell.Gem.Clone();
 
@@ -54,20 +54,26 @@ namespace Match3.Core.Controllers
             {
                 for (int x = 0; x < DefaultField.BoardSize; x++)
                 {
-                    if (gameField[y, x].Gem != null) continue;
-                    if (gameField[y - 1, x].Gem == null) continue;
-
-                    if (gameField[y - 1, x].Gem.Position != gameField[y, x].Position)
-                    {
-                        gameField[y - 1, x].Gem.Position = new Vector2(gameField[y - 1, x].Gem.Position.X, gameField[y - 1, x].Gem.Position.Y + DefaultSettings.Speed);
-                    }
-                    else
-                    {
-                        gameField[y, x].Gem = (Gem)gameField[y - 1, x].Gem.Clone();
-                        gameField[y, x].SetGemPosition();
-                        gameField[y - 1, x].Gem = null;
-                    }
+                    MoveToLowerRow(gameField, y, x);
                 }
+            }
+        }
+
+        private static void MoveToLowerRow(FieldCell[,] gameField, int y, int x)
+        {
+            if (gameField[y, x].Gem != null) return;
+            if (gameField[y - 1, x].Gem == null) return;
+
+            if (gameField[y - 1, x].Gem.Position != gameField[y, x].Position)
+            {
+                gameField[y - 1, x].Gem.Position = new Vector2(gameField[y - 1, x].Gem.Position.X,
+                    gameField[y - 1, x].Gem.Position.Y + DefaultSettings.Speed);
+            }
+            else
+            {
+                gameField[y, x].Gem = (Gem) gameField[y - 1, x].Gem.Clone();
+                gameField[y, x].SetGemPosition();
+                gameField[y - 1, x].Gem = null;
             }
         }
 
@@ -76,7 +82,7 @@ namespace Match3.Core.Controllers
             Gem newGem = new Gem()
             {
                 Position = position,
-                Texture = ContentController.GetTexture(type.SpritePath()),
+                Texture = TextureController.GetTexture(type.SpritePath()),
                 IsClicked = false,
                 ScorePrice = DefaultSettings.GemScore,
                 Type = type,
@@ -103,8 +109,8 @@ namespace Match3.Core.Controllers
         {
             if (gem != null)
             {
-                gem.Texture = gem.IsClicked ? ContentController.GetTexture(gem.Type.SelectedSpritePath())
-                                            : ContentController.GetTexture(gem.Type.SpritePath());
+                gem.Texture = gem.IsClicked ? TextureController.GetTexture(gem.Type.SelectedSpritePath())
+                                            : TextureController.GetTexture(gem.Type.SpritePath());
             }
         }
     }

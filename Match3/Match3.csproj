@@ -45,10 +45,10 @@
     <Compile Include="Elements\Button\ButtonBuilder.cs" />
     <Compile Include="Elements\EndWindow\EndWindow.cs" />
     <Compile Include="Core\Controllers\BonusController.cs" />
-    <Compile Include="Core\Controllers\FieldCellsConroller.cs" />
+    <Compile Include="Core\Controllers\GameBoardConroller.cs" />
     <Compile Include="Elements\Button\Button.cs" />
     <Compile Include="Core\Controllers\GemsController.cs" />
-    <Compile Include="Core\Controllers\ContentController.cs" />
+    <Compile Include="Core\Controllers\TextureController.cs" />
     <Compile Include="Core\DefaltConst\DefaultValues.cs" />
     <Compile Include="Core\Extensions\ExtensionMethods.cs" />
     <Compile Include="Core\Models\CurrentMove.cs" />

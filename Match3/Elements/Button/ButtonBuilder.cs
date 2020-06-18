@@ -25,7 +25,7 @@ namespace Match3.Elements.Button
                 throw new NullReferenceException();
             }
 
-            _button.Texture = ContentController.GetTexture(_button.Type.SpritePath());
+            _button.Texture = TextureController.GetTexture(_button.Type.SpritePath());
 
             return this;
         }
@@ -37,7 +37,7 @@ namespace Match3.Elements.Button
                 throw new NullReferenceException();
             }
 
-            _button.Font = ContentController.GetFont(_button.Type.FontPath());
+            _button.Font = TextureController.GetFont(_button.Type.FontPath());
 
             return this;
         }
