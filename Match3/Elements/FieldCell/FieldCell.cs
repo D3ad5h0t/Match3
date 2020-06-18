@@ -10,14 +10,11 @@ namespace Match3.Elements.FieldCell
         private MouseState _currentMouse;
         private MouseState _previousMouse;
 
+
         public event EventHandler Click;
-
         public int Id { get; set; }
-
         public int Column { get; set; }
-
         public int Row { get; set; }
-
         public Gem.Gem Gem { get; set; }
 
 
@@ -41,5 +38,6 @@ namespace Match3.Elements.FieldCell
                 }
             }
         }
+
     }
 }

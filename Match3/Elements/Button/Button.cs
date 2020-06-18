@@ -44,13 +44,24 @@ namespace Match3.Elements.Button
 
             spriteBatch.Draw(Texture, Rectangle, color);
 
+            DrawButtonText(spriteBatch);
+        }
+
+        private void DrawButtonText(SpriteBatch spriteBatch)
+        {
             if (!string.IsNullOrWhiteSpace(Text))
             {
-                var x = (Rectangle.X + (Rectangle.Width / 2)) - (Font.MeasureString(Text).X / 2);
-                var y = (Rectangle.Y + (Rectangle.Height / 2)) - (Font.MeasureString(Text).Y / 2);
-
-                spriteBatch.DrawString(Font, Text, new Vector2(x, y), PenColor);
+                var position = GetTextPosition();
+                spriteBatch.DrawString(Font, Text, position, PenColor);
             }
+        }
+
+        private Vector2 GetTextPosition()
+        {
+            var x = (Rectangle.X + (Rectangle.Width / 2)) - (Font.MeasureString(Text).X / 2);
+            var y = (Rectangle.Y + (Rectangle.Height / 2)) - (Font.MeasureString(Text).Y / 2);
+            
+            return new Vector2(x, y);
         }
 
         public override void Update(GameTime gameTime)

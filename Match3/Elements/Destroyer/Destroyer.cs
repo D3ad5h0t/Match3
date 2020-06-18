@@ -25,11 +25,9 @@ namespace Match3.Elements.Destroyer
             _direction = direction;
             _coordinate = coordinate;
 
-            Texture = direction == DirectionType.Horizontal
-                ? TextureController.GetTexture(GemType.HorizontalLine.SelectedSpritePath())
-                : TextureController.GetTexture(GemType.VerticalLine.SelectedSpritePath());
+            Texture = direction == DirectionType.Horizontal ? TextureController.GetTexture(GemType.HorizontalLine.SelectedSpritePath())
+                                                            : TextureController.GetTexture(GemType.VerticalLine.SelectedSpritePath());
         }
-
 
         public override void Update(GameTime gameTime)
         {
@@ -50,21 +48,24 @@ namespace Match3.Elements.Destroyer
             }
         }
 
-
-        public override Rectangle Rectangle => new Rectangle(
-            (int)Position.X + DefaultGem.DeltaWidth,
-            (int)Position.Y + DefaultGem.DeltaHeight,
-            DefaultGem.Width,
-            DefaultGem.Height);
-
+        public override Rectangle Rectangle => new Rectangle((int)Position.X + DefaultGem.DeltaWidth, 
+                                                             (int)Position.Y + DefaultGem.DeltaHeight,
+                                                                DefaultGem.Width,
+                                                                DefaultGem.Height);
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(
-                Texture,
-                new Rectangle((int)Position.X, (int)Position.Y, DefaultGem.Width, DefaultGem.Height),
-                new Rectangle(-DefaultGem.DeltaWidth, -DefaultGem.DeltaHeight, Texture.Width, Texture.Height),
-                Color.White);
+            spriteBatch.Draw(Texture, GetOldTextuRectangle(), GetNewTextureRectangle(), Color.White);
+        }
+
+        private Rectangle GetOldTextuRectangle()
+        {
+            return new Rectangle((int) Position.X, (int) Position.Y, DefaultGem.Width, DefaultGem.Height);
+        }
+
+        private Rectangle GetNewTextureRectangle()
+        {
+            return new Rectangle(-DefaultGem.DeltaWidth, -DefaultGem.DeltaHeight, Texture.Width, Texture.Height);
         }
     }
 }

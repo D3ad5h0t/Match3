@@ -17,9 +17,7 @@ namespace Match3.Elements.Background
             spriteBatch.Draw(
                 Texture, 
                 Position, 
-                new Rectangle(0, 0, 
-                    DefaultWindow.Width, 
-                    DefaultWindow.Height),
+                new Rectangle(0, 0, DefaultWindow.Width, DefaultWindow.Height),
                 Color.White);
         }
     }
