@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/glushchenko/Downloads/Match3/Match3/Content/Elements/Air/3.png</SourceFile>
-  <SourceTime>2020-06-18T11:12:05.1590348+10:00</SourceTime>
+  <SourceTime>2020-06-18T15:05:55.3662842+10:00</SourceTime>
   <DestFile>C:/Users/glushchenko/Downloads/Match3/Match3/Content/bin/DesktopGL/Content/Elements/Air/3.xnb</DestFile>
-  <DestTime>2020-06-18T11:12:26.3938447+10:00</DestTime>
+  <DestTime>2020-06-18T15:07:25.3694815+10:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-09T02:35:54+10:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

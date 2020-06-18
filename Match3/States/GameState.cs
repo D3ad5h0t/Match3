@@ -40,12 +40,6 @@ namespace Match3.States
 
             gameFont = TextureController.GetFont("Fonts/galleryFont");
             _gameOverWindow = new EndWindow(_game, EndButton_Click);
-
-
-
-            //TODO Для тестирования - потом удалить!!!
-            GameField[0, 0].Gem = GemsController.GetNewGem(GameField[0, 0].Position, GemType.HorizontalLine);
-            GameField[1, 1].Gem = GemsController.GetNewGem(GameField[1, 1].Position, GemType.Bomb);
         }
 
 
