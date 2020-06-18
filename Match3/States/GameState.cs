@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Match3.Core.Controllers;
 using Match3.Core.DefaltConst;
 using Match3.Core.Models;
@@ -23,7 +24,7 @@ namespace Match3.States
         private EndWindow _gameOverWindow = null;
 
         public static FieldCell[,] GameField = new FieldCell[DefaultField.BoardSize, DefaultField.BoardSize];
-        public static CurrentMove Move = null;
+        public static CurrentMove Move = new CurrentMove();
         public static int Score = 0;
         public static List<FieldCell> ActivatedBombs = new List<FieldCell>();
         public static List<Destroyer> Destroyers = new List<Destroyer>();
@@ -68,7 +69,6 @@ namespace Match3.States
             {
                 DrawGameOverWindow(gameTime, spriteBatch);
             }
-            
 
             spriteBatch.End();
         }
@@ -132,28 +132,48 @@ namespace Match3.States
 
             GameBoardConroller.MatchAndClear(GameField);
 
-            //TODO Вернуть возвращение элементов если не произошло удаление
-
-
             UpdateActivatedBonuses();
 
             UpdateDestroyers(gameTime);
 
             BonusController.BlowActivatedBombs();
-            
+
             BonusController.UseDestoyers();
 
             if (Destroyers.Count == 0)
             {
                 GemsController.MoveGems(GameField);
+
                 GemsController.GenerateNewGems(GameField);
             }
+
+            if (IsCurrentMoveImposible()) return;
 
             foreach (var cell in GameField)
             {
                 cell.Update(gameTime);
                 cell.Gem?.Update(gameTime);
             }
+        }
+
+        private static bool IsCurrentMoveImposible()
+        {
+            if (Move.FirstCell != null && Move.SecondCell != null)
+            {
+                if (Move.FirstCell.Gem == null || Move.SecondCell.Gem == null)
+                {
+                    return true;
+                }
+
+                if (Move.FirstCell.Gem.WasMoved && Move.SecondCell.Gem.WasMoved)
+                {
+                    GemsController.SwapGems(Move.FirstCell, Move.SecondCell);
+                    Move.FirstCell = null;
+                    Move.SecondCell = null;
+                }
+            }
+
+            return false;
         }
 
         private static void UpdateDestroyers(GameTime gameTime)
@@ -180,7 +200,7 @@ namespace Match3.States
             switch (cell.Gem.Type)
             {
                 case GemType.Bomb:
-                    ActivatedBombs.Add((FieldCell) cell.Clone());
+                    ActivatedBombs.Add((FieldCell)cell.Clone());
                     GemsController.DeleteGem(cell);
                     break;
                 case GemType.VerticalLine:
@@ -231,10 +251,10 @@ namespace Match3.States
 
             if (_prevCell != null)
             {
-                GemsController.SwapGems(clickedCell, _prevCell);
-                Move = new CurrentMove(clickedCell, _prevCell);
                 clickedCell.Gem.WasMoved = true;
                 _prevCell.Gem.WasMoved = true;
+                Move = new CurrentMove(clickedCell, _prevCell);
+                GemsController.SwapGems(Move.FirstCell, Move.SecondCell);
 
                 foreach (var cell in GameField)
                 {

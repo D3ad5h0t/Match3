@@ -16,10 +16,10 @@ namespace Match3.Elements.EndWindow
 
         public EndWindow(Game game, EventHandler handler)
         {
-            Texture = TextureController.GetTexture("UI/popupBox");
+            Texture = TextureController.GetTexture(PopUpWindow.TexturePath);
             Position = GetPosition(game);
 
-            _gameFont = TextureController.GetFont("Fonts/galleryFont");
+            _gameFont = TextureController.GetFont(DefaultSettings.FontPath);
             _titleText = "Game Over!";
 
             var btnType = ButtonType.Yellow;

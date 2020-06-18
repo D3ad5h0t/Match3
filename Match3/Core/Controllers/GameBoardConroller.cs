@@ -29,10 +29,6 @@ namespace Match3.Core.Controllers
 
         public static void MatchAndClear(FieldCell[,] gameField)
         {
-            int emptyCount = gameField.OfType<FieldCell>().Count(cell => cell.Gem == null);
-
-            if (emptyCount != 0) return;
-
             CopyField(gameField, _gameField);
             _currentCell = null;
             _collector.Clear();

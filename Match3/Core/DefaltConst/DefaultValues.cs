@@ -36,7 +36,11 @@
 
         public const float BobmTimer = 0.25f;
 
+        public const float SwapTimer = 1f;
+
         public const float BombTick = 0.016f;
+
+        public const string FontPath = "Fonts/galleryFont";
     }
 
     public static class PopUpWindow
@@ -44,5 +48,7 @@
         public const int Width = 334;
 
         public const int Height = 220;
+
+        public const string TexturePath = "UI/popupBox";
     }
 }
